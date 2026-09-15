@@ -14,23 +14,36 @@ jobs:
       contents: write           # This workflow pushes to the repository
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.9'   # Specify the Python version you need
 
+    - name: Check for talks
+      id: talks
+      shell: bash
+      run: |
+        if compgen -G "_talks/*.md" > /dev/null; then
+          echo "has_talks=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "has_talks=false" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Install dependencies
+      if: steps.talks.outputs.has_talks == 'true'
       run: |
         pip install jupyter pandas requests beautifulsoup4 geopy  # Add other dependencies as needed
         pip install getorg --upgrade
 
     - name: Run Jupyter Notebook
+      if: steps.talks.outputs.has_talks == 'true'
       run: |
         jupyter nbconvert --to notebook --execute talkmap.ipynb --output talkmap_out.ipynb
 
     - name: Commit changes
+      if: steps.talks.outputs.has_talks == 'true'
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"

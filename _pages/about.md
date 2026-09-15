@@ -18,4 +18,4 @@ My research focuses on **AI for Medicine**, especially multimodal learning for m
 
 ## Interests beyond research
 
-I enjoy literature, the arts, and choral performance. I am a member of the Tsinghua University student chorus and have participated in volunteer teaching in Tibet.
+I enjoy music, dance, choral performance and sports. I am previously a member of the Tsinghua University student chorus.
